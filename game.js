@@ -1,9 +1,10 @@
 /*eslint-env es6*/
 const question = document.getElementById("question");
 const choices = Array.from(document.getElementsByClassName("choice-text"));
+const progressText = document.getElementById("progressText");
 const questionCounterText = document.getElementById('questionCounter');
 const scoreText = document.getElementById('score');
-
+const progressBarFull = document.getElementById(progressBarFull);
 let currentQuestion = {};
 let acceptingAnswers = true;
 let score = 0;
@@ -37,12 +38,11 @@ let questions = [
         choice4:"alert('Hello world')",
         answer: 4
     }
-    
-];
+    ];
 
 //CONSTANTS
-const CORRECT_BONUS =3;
-const MAX_QUESTIONS = 0;
+const CORRECT_BONUS =10;
+const MAX_QUESTIONS = 3;
 
 startGame = () => {
     questionCounter = 0;
@@ -52,17 +52,18 @@ startGame = () => {
 };
 
 getNewQuestion = () =>{
-    if(availableQuestions === 0 || questionCounter >= MAX_QUESTIONS){
+    if(availableQuestions.length == 0 || questionCounter >= MAX_QUESTIONS){
         return window.location.assign("/end.html");
     }
     questionCounter++;
-    questionCounterText.innerText = questionCounter + "/" + MAX_QUESTIONS;
+    progressText.innerText = Question ${questionCounter}/${MAX_QUESTIONS};
+    progressBarFull.style.width = '(${questionCounter/MAX_QUESTIONS) * 100}px';  
     const questionIndex = Math.floor(Math.random() * availableQuestions.length);
     currentQuestion = availableQuestions[questionIndex];
     question.innerText = currentQuestion.question;
-};
+    
 choice.forEach( choice => {
-    const number = choice.dataset["numbe"];
+    const number = choice.dataset["number"];
     choice.innerTest = currentQuestion["choice" + number]; 
 });
 
@@ -75,7 +76,7 @@ choice.forEach(choice => {
         
         acceptingAnswers = false;
         const selectedChoice = e.target;
-        const selectedAnswer = selectedChoice.dataset["number"];
+        const selectedAnswer = selectedChoice.dataset["number";
         
         const classToApply = 'incorrect';
         if (selectedAnswer == currentQuestion.answer){
