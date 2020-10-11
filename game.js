@@ -13,24 +13,26 @@ let availableQuestions = [];
 
 let questions = [];
 
-fetch("https://opentdb.com/api.php?amount=10&category=9&di").then(res=>{
+fetch("https://opentdb.com/api.php?amount=10&category=9&di"
+).then(res =>{
     return res.json();
-}).then(loadedQuestions => {
+})
+.then(loadedQuestions => {
  questions = loadedQuestions.results.map(loadedQuestion => {
     const formattedQuestion ={
         question: loadedQuestion.question
     };
-    const answerChoices = [...loadedQuestion.incorrect_answers];
+    const answerChoices = [...loadedQuestion.incorrect_answer];
     formattedQuestion.answer = Math.floor(Math.random() * 3) + 1;
-    answerChoices.splice(formattedQuestion.answer-1, 0,
+answerChoices.splice(formattedQuestion.answer-1, 0,
     loadedQuestion.correct_answer);
     
-    answerChoices.forEach(choice, index) => {
-        formattedQuestion["choice" + (index+1)] = choice;
+    answerChoices.forEach((choice, index) => {
+        formattedQuestion["choice" + (index +1)] = choice;
     });
     return formattedQuestion;
- });   
-    startGame ();
+ }); 
+startGame ();
 })
 .catch(err =>{
     console.error(err);
@@ -46,11 +48,12 @@ startGame = () => {
     score = 0;
     availableQuestions = [...questions];
     getNewquestion();
+    game.classList.remove("hidden");
+    loader.classList.add("hidden");
 };
 
 getNewQuestion = () =>{
-    if(availableQuestions.length === 0 || questionCounter >= MAX_QUESTIONS){
-        localStorage.setItem("mostRecentScore", score);
+    if(availableQuestions.length === 0 || questionCounter >= MAX_QUESTIONS{ localStorage.setItem("mostRecentScore", score);
         return window.location.assign("/end.html");
     }
     questionCounter++;
